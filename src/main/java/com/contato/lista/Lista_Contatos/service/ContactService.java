@@ -6,6 +6,8 @@ import com.contato.lista.Lista_Contatos.repository.ContactRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class ContactService {
@@ -22,8 +24,25 @@ public class ContactService {
                 .build());
     }
 
-    public Contact findName(String name) {
-        return contactRepository.findByFirstName(name);
+    public Contact update(long id, ContactDto contactDto) {
+        Optional<Contact> contactById = contactRepository.findById(id);
+        return contactById.map(contact -> contactRepository.save(Contact.builder()
+                .Id(contact.getId())
+                .name(contactDto.getName())
+                .phone(contactDto.getPhone())
+                .email(contactDto.getEmail())
+                .middleName(contactDto.getMiddleName())
+                .lastName(contactDto.getLastName())
+                .build())).orElse(null);
+    }
+
+    public void remove(long id) {
+        if(contactRepository.findById(id).isPresent())
+            contactRepository.deleteById(id);
+    }
+
+    public Iterable<Contact> getAll() {
+        return contactRepository.findAll();
     }
 
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContactRepository extends CrudRepository<Contact, Long> {
 
-    Contact findByFirstName(String name);
+    //Contact findByFirstName(String name);
 
 }
