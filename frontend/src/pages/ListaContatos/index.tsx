@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import ButtonAction from "./components/ButtonAction";
+import ListContacts from "./components/ListContacts";
 import { Search } from "@mui/icons-material";
 
 export function ListaContatos() {
@@ -41,6 +42,9 @@ export function ListaContatos() {
               variant="outlined"
             />
           </Box>
+        </Grid>
+        <Grid size={9.5} mx={6}>
+         <ListContacts />
         </Grid>
       </Grid>
     </Container>
