@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("contacts")
 public class ContactController {
 
-    ContactService contactService;
+    private final ContactService contactService;
 
     @PostMapping
     public ResponseEntity<Contact> createContact(@RequestBody ContactDto contactDto) {
@@ -36,7 +36,5 @@ public class ContactController {
                 .phone(contact.getPhone())
                 .build());
     }
-
-
 
 }

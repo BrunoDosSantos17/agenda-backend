@@ -8,19 +8,22 @@ import {
     Typography
 } from "@mui/material";
 import defaultAvatar from "../../../../assets/profile-user.svg"
+import {listPessoas } from '../../../../services'
+import { useEffect, useState } from "react";
+import { Contacts } from "../../../../services/type";
     
   export default function ListContacts() {
-    const listFake = [
-      { id: 1, name: "Abraão Sena", phone: "(11) 90876-1234", avatar: "" },
-      { id: 2, name: "Adriana Silva", phone: "(11) 98765-4321", avatar: "" },
-      { id: 3, name: "Bruno Souza", phone: "(21) 91234-5678", avatar: "" },
-      { id: 4, name: "Carlos Mendes", phone: "(31) 92345-6789", avatar: "" },
-      { id: 5, name: "Caio Ribeiro", phone: "(41) 93456-7890", avatar: "" },
-      { id: 6, name: "Taumatawhakatangihangakoauauotamateapokaiwhenuakitanatahu", phone: "(41) 93456-7890", avatar: "" },
-      
-    ];
-  
-    // Usamos um Set para rastrear quais iniciais já foram renderizadas
+    const [personas, setPersonas] = useState<Contacts[]>([]);
+
+    const returnListPessoas = async () => {
+      const response = await listPessoas()
+      setPersonas(response)
+    }
+
+    useEffect(() => {
+      returnListPessoas()
+    }, [])
+
     const renderedInitials = new Set();
   
     return (
@@ -34,7 +37,7 @@ import defaultAvatar from "../../../../assets/profile-user.svg"
         }}
         subheader={<li />}
       >
-        {listFake.map((item) => {
+        {personas.map((item) => {
           const initial = item.name.charAt(0).toUpperCase();
           const isFirstOccurrence = !renderedInitials.has(initial);
   
