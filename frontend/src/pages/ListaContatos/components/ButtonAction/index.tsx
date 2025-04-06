@@ -8,7 +8,8 @@ export default function ButtonAction() {
       justifyContent="right"
       alignItems="right"
     >
-      <Button variant="text">
+      <Button variant="text"
+      >
         <Add style={{ color: "E1E1E6" }} />
       </Button>
       <Button variant="text">
