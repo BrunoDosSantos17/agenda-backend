@@ -1,25 +1,24 @@
 import {
+  avatarClasses,
   Box,
   Button,
   Container,
-  Grid2,
-  TextField,
+  Grid2 as Grid,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { WhiteTextField } from "./componentes/TextField"
+import { createPessoa } from "../../services";
 
 export function EditContatos() {
   const initialFormData = {
+    id: null,
     name: "",
+    middleName: "",
+    lastName: "",
     phone: "",
-    cpf: "",
-    adress: "",
-    number: "",
-    complements: "",
-    zipCode: "",
-    district: "",
-    city: "",
-    state: "",
+    email: "",
+    avatar: ""
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -29,134 +28,81 @@ export function EditContatos() {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    let zipCode = e.target.value.replace(/\D/g, "");
-    if (zipCode.length > 5) {
-      zipCode = zipCode.slice(0, 5) + "-" + zipCode.slice(5, 8);
-    }
-    setFormData({ ...formData, zipCode });
-
-    if (zipCode.length === 9) {
-      try {
-        const teste = 1;
-      } catch (error) {
-        console.error("Erro ao buscar CEP:", error);
-      }
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await createPessoa(formData)
+
     console.log("Dados do formulário:", JSON.stringify(formData, null, 2));
-    try {
-      const response = {
-        data: "oi",
-      };
-      console.log("Dados enviados com sucesso:", response.data);
-      alert("Cadastro realizado com sucesso!");
-      setFormData(initialFormData); // Limpa o formulário
-    } catch (error) {
-      console.error("Erro ao enviar os dados:", error);
-      alert(
-        "Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente."
-      );
-    }
+    alert("Cadastro realizado com sucesso!");
+    setFormData(initialFormData);
   };
 
   return (
-    <Container>
-      <Grid2 container spacing={2} minHeight={160}>
-        <Grid2 size={6} mx={6} justifyContent="left" alignItems="left">
-          <Typography variant="h4">Lista de Contatos</Typography>
-        </Grid2>
-        <Box
-          sx={{
-            width: 60,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Grid2 onSubmit={handleSubmit}>
-            <TextField
+    <Container maxWidth="md">
+      <Typography variant="h4" gutterBottom>
+        Lista de Contatos
+      </Typography>
+
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+        <Grid container spacing={2}>
+          <Grid size={6} mx={6}>
+            <WhiteTextField
               label="Name"
               name="name"
               value={formData.name}
               onChange={handleChange}
+              fullWidth
               required
             />
-            <TextField
-              label="Telefone"
+          </Grid>
+          <Grid size={6} mx={6}>
+            <WhiteTextField
+              label="Middle Name"
+              name="middleName"
+              value={formData.middleName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid size={6} mx={6}>
+            <WhiteTextField
+              label="Last Name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid size={6} mx={6}>
+            <WhiteTextField
+              label="Phone"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              fullWidth
               required
             />
-            <TextField
-              label="CPF"
-              name="cpf"
-              value={formData.cpf}
+          </Grid>
+          <Grid size={6} mx={6}>
+            <WhiteTextField
+              label="Email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
+              fullWidth
               required
             />
-            <TextField
-              label="CEP"
-              name="zipCode"
-              value={formData.zipCode}
-              onChange={handleCepChange}
-              required
-            />
-            <TextField
-              label="Adress"
-              name="adress"
-              value={formData.adress}
-              onChange={handleChange}
-              required
-              disabled
-            />
-            <TextField
-              label="Complements"
-              name="complement"
-              value={formData.complements}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Number"
-              name="number"
-              value={formData.number}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="District"
-              name="district"
-              value={formData.district}
-              onChange={handleChange}
-              required
-              disabled
-            />
-            <TextField
-              label="City"
-              name="City"
-              value={formData.city}
-              onChange={handleChange}
-              required
-              disabled
-            />
-            <TextField
-              label="State"
-              name="State"
-              value={formData.state}
-              onChange={handleChange}
-              required
-              disabled
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Registration
-            </Button>
-          </Grid2>
+          </Grid>
+        </Grid>
+
+        <Box mt={3} display="flex" justifyContent="flex-end">
+          <Button type="submit" variant="contained" color="primary">
+            Registration
+          </Button>
         </Box>
-      </Grid2>
+      </Box>
     </Container>
   );
 }

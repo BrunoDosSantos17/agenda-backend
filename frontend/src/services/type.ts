@@ -1,6 +1,8 @@
 export interface Contacts {
-    id: number, 
-    name: string, 
+    id: number | null, 
+    name: string,
+    middleName: string,
+    lastName: string, 
     phone: string, 
     avatar: string
 }

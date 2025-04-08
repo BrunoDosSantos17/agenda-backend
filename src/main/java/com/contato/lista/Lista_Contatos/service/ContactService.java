@@ -21,6 +21,7 @@ public class ContactService {
                 .email(contactDto.getEmail())
                 .middleName(contactDto.getMiddleName())
                 .lastName(contactDto.getLastName())
+                .avatar(contactDto.getAvatar())
                 .build());
     }
 
@@ -33,6 +34,7 @@ public class ContactService {
                 .email(contactDto.getEmail())
                 .middleName(contactDto.getMiddleName())
                 .lastName(contactDto.getLastName())
+                .avatar(contactDto.getAvatar())
                 .build())).orElse(null);
     }
 
