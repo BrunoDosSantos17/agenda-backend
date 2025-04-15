@@ -9,8 +9,22 @@ import {
 import ButtonAction from "./components/ButtonAction";
 import ListContacts from "./components/ListContacts";
 import { Search } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { Contact } from "../../services/type";
+import { useState } from "react";
+
 
 export function ListaContatos() {
+  const navigate = useNavigate();
+
+  const [personas, setPersonas] = useState<Contact[]>([]);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  
+
+  const handleClick = (item: Contact | null) => {
+    navigate("/edit", { state: item });
+  };
+
   return (
     <Container>
       <Grid container spacing={2} minHeight={160}>
@@ -18,7 +32,9 @@ export function ListaContatos() {
           <Typography variant="h4">Lista de Contatos</Typography>
         </Grid>
         <Grid size={4} mx={6}>
-          <ButtonAction />
+          <ButtonAction 
+            handleClick={() => handleClick(personas[selectedId || 0])}
+          />
         </Grid>
         <Grid size={9.5} mx={5}>
           <Box sx={{ "& > :not(style)": { m: 1 } }}>
@@ -44,7 +60,12 @@ export function ListaContatos() {
           </Box>
         </Grid>
         <Grid size={9.5} mx={6}>
-         <ListContacts />
+         <ListContacts 
+            setPersonas={setPersonas}
+            personas={personas}
+            selectedId={selectedId}
+            setSelectedId={setSelectedId}
+         />
         </Grid>
       </Grid>
     </Container>

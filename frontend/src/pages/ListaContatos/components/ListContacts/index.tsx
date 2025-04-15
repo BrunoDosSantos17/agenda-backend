@@ -9,22 +9,28 @@ import {
 } from "@mui/material";
 import defaultAvatar from "../../../../assets/profile-user.svg";
 import { listPessoas } from "../../../../services";
-import { useEffect, useRef, useState } from "react";
-import { Contacts } from "../../../../services/type";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Contact } from "../../../../services/type";
 
-export default function ListContacts() {
-  const [personas, setPersonas] = useState<Contacts[]>([]);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+interface Props {
+  personas: Contact[];
+  setPersonas: Dispatch<SetStateAction<Contact[]>>;
+  selectedId: number | null;
+  setSelectedId: Dispatch<SetStateAction<number | null>>;
+}
+
+export default function ListContact({ personas, setPersonas, selectedId, setSelectedId }: Props ) {
+
   const colorMapRef = useRef<Map<string, string>>(new Map());
+
+  useEffect(() => {
+    returnListPessoas();
+  } );
 
   const returnListPessoas = async () => {
     const response = await listPessoas();
     setPersonas(response);
   };
-
-  useEffect(() => {
-    returnListPessoas();
-  }, []);
 
   const getPastelColor = (): string => {
     const hue = Math.floor(Math.random() * 360); // 0 - 360
@@ -46,7 +52,7 @@ export default function ListContacts() {
       }}
       subheader={<li />}
     >
-      {personas.map((item) => {
+      {personas.sort((a, b) => a.name.localeCompare(b.name)).map((item) => {
         const initial = item.name.charAt(0).toUpperCase();
         const isFirstOccurrence = !renderedInitials.has(initial);
 
@@ -104,7 +110,7 @@ export default function ListContacts() {
             <ListItemText
               primary={
                 <Typography sx={{ color: "#FFFFFF" }}>
-                  {item.name}
+                  {item.name} {item.middleName} {item.lastName}
                 </Typography>
               }
               secondary={

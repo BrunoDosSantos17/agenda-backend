@@ -1,7 +1,11 @@
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
 
-export default function ButtonAction() {
+interface Props {
+  handleClick: () => void;
+}
+
+export default function ButtonAction({handleClick}: Props) {
   return (
     <Box
       sx={{ "& > :not(style)": { m: 1 } }}
@@ -9,6 +13,7 @@ export default function ButtonAction() {
       alignItems="right"
     >
       <Button variant="text"
+        onClick={handleClick}
       >
         <Add style={{ color: "E1E1E6" }} />
       </Button>
