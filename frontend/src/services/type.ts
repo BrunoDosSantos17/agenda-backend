@@ -4,5 +4,5 @@ export interface Contact {
     middleName: string,
     lastName: string, 
     phone: string, 
-    avatar: string
+    avatar: File | null
 }

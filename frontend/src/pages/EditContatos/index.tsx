@@ -17,7 +17,7 @@ export function EditContatos() {
     lastName: "",
     phone: "",
     email: "",
-    avatar: "",
+    avatar: null,
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -42,12 +42,13 @@ export function EditContatos() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    formData.avatar = avatar ? avatar.name : "";
-    await createPessoa(formData);
 
-    console.log("Dados do formulário:", JSON.stringify(formData, null, 2));
-    alert("Cadastro realizado com sucesso!");
+
+
+    await createPessoa(formData, avatar);
+
     setFormData(initialFormData);
+    setAvatarFile(null);
   };
 
   return (
@@ -115,14 +116,14 @@ export function EditContatos() {
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
-            <Button variant="outlined"  fullWidth onClick={handleUploadClick}>
+            <Button variant="outlined" fullWidth onClick={handleUploadClick}>
               {avatar ? "Imagem selecionada ✅" : "Selecionar imagem"}
             </Button>
           </Grid>
           <Grid size={6} mx={6}>
-              <Button type="submit" variant="contained" fullWidth color="primary">
-                Registration
-              </Button>
+            <Button type="submit" variant="contained" fullWidth color="primary">
+              Registration
+            </Button>
           </Grid>
         </Grid>
       </Box>

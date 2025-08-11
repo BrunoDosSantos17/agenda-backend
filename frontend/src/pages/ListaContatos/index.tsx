@@ -44,6 +44,7 @@ export function ListaContatos() {
               style={{
                 borderRadius: 8,
                 backgroundColor: "#24243a",
+                color: "#E1E1E6"
               }}
               placeholder="Busque por nome ou por dados de contato..."
               slotProps={{
