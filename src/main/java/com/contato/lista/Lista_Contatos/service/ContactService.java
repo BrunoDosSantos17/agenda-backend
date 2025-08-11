@@ -5,6 +5,8 @@ import com.contato.lista.Lista_Contatos.entity.Contact;
 import com.contato.lista.Lista_Contatos.repository.ContactRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.Optional;
 
@@ -14,14 +16,14 @@ public class ContactService {
 
     private ContactRepository contactRepository;
 
-    public Contact create(ContactDto contactDto) {
+    public Contact create(ContactDto contactDto, MultipartFile avatar) {
         return contactRepository.save(Contact.builder()
                 .name(contactDto.getName())
                 .phone(contactDto.getPhone())
                 .email(contactDto.getEmail())
                 .middleName(contactDto.getMiddleName())
                 .lastName(contactDto.getLastName())
-                .avatar(contactDto.getAvatar())
+                .avatar(avatar.getOriginalFilename())
                 .build());
     }
 
@@ -34,7 +36,7 @@ public class ContactService {
                 .email(contactDto.getEmail())
                 .middleName(contactDto.getMiddleName())
                 .lastName(contactDto.getLastName())
-                .avatar(contactDto.getAvatar())
+                .avatar("")
                 .build())).orElse(null);
     }
 

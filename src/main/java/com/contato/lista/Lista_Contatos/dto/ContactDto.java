@@ -18,6 +18,4 @@ public class ContactDto {
     private String phone;
 
     private String email;
-
-    private String avatar;
 }

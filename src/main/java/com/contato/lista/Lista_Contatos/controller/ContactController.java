@@ -4,8 +4,11 @@ import com.contato.lista.Lista_Contatos.dto.ContactDto;
 import com.contato.lista.Lista_Contatos.entity.Contact;
 import com.contato.lista.Lista_Contatos.service.ContactService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @RestController
 @AllArgsConstructor
@@ -14,9 +17,12 @@ public class ContactController {
 
     private final ContactService contactService;
 
-    @PostMapping
-    public ResponseEntity<Contact> createContact(@RequestBody ContactDto contactDto) {
-        return ResponseEntity.ok(contactService.create(contactDto));
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Contact> createContact(
+            @RequestPart("contact") ContactDto contactDto,
+            @RequestPart("avatar") MultipartFile avatar) {
+
+        return ResponseEntity.ok(contactService.create(contactDto, avatar));
     }
 
     @GetMapping
@@ -36,5 +42,6 @@ public class ContactController {
                 .phone(contact.getPhone())
                 .build());
     }
+
 
 }
