@@ -25,7 +25,7 @@ export default function ListContact({ personas, setPersonas, selectedId, setSele
 
   useEffect(() => {
     returnListPessoas();
-  } );
+  });
 
   const returnListPessoas = async () => {
     const response = await listPessoas();
@@ -53,6 +53,7 @@ export default function ListContact({ personas, setPersonas, selectedId, setSele
       subheader={<li />}
     >
       {personas.sort((a, b) => a.name.localeCompare(b.name)).map((item) => {
+        console.log(item);
         const initial = item.name.charAt(0).toUpperCase();
         const isFirstOccurrence = !renderedInitials.has(initial);
 

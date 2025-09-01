@@ -12,6 +12,7 @@ import { Search } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { Contact } from "../../services/type";
 import { useState } from "react";
+import { FormContacts } from "./components/Form";
 
 
 export function ListaContatos() {
@@ -61,6 +62,7 @@ export function ListaContatos() {
           </Box>
         </Grid>
         <Grid size={9.5} mx={6}>
+          <FormContacts />
          <ListContacts 
             setPersonas={setPersonas}
             personas={personas}

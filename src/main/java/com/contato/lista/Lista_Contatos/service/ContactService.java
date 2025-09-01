@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -17,14 +22,19 @@ public class ContactService {
     private ContactRepository contactRepository;
 
     public Contact create(ContactDto contactDto, MultipartFile avatar) {
-        return contactRepository.save(Contact.builder()
-                .name(contactDto.getName())
-                .phone(contactDto.getPhone())
-                .email(contactDto.getEmail())
-                .middleName(contactDto.getMiddleName())
-                .lastName(contactDto.getLastName())
-                .avatar(avatar.getOriginalFilename())
-                .build());
+        try {
+            return contactRepository.save(Contact.builder()
+                    .name(contactDto.getName())
+                    .phone(contactDto.getPhone())
+                    .email(contactDto.getEmail())
+                    .middleName(contactDto.getMiddleName())
+                    .lastName(contactDto.getLastName())
+                    .avatar(armazenamentoImagem(avatar))
+                    .build());
+        }catch (Exception e) {
+            System.out.println("Deu falha em salvar o contato");
+        }
+        return null;
     }
 
     public Contact update(long id, ContactDto contactDto) {
@@ -47,6 +57,17 @@ public class ContactService {
 
     public Iterable<Contact> getAll() {
         return contactRepository.findAll();
+    }
+
+    private String armazenamentoImagem(MultipartFile avatar) throws IOException {
+        final var folderPath = new File("src/main/resources").getAbsolutePath();
+        Files.createDirectories(Paths.get(folderPath));
+
+        Path filePath = Paths.get(folderPath, avatar.getOriginalFilename());
+
+        avatar.transferTo(filePath);
+
+        return folderPath + "/" + filePath.getFileName().toString();
     }
 
 }
