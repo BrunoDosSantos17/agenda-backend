@@ -16,15 +16,11 @@ import { FormContacts } from "./components/Form";
 
 
 export function ListaContatos() {
-  const navigate = useNavigate();
 
   const [personas, setPersonas] = useState<Contact[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   
-
-  const handleClick = (item: Contact | null) => {
-    navigate("/edit", { state: item });
-  };
 
   return (
     <Container>
@@ -34,7 +30,7 @@ export function ListaContatos() {
         </Grid>
         <Grid size={4} mx={6}>
           <ButtonAction 
-            handleClick={() => handleClick(personas[selectedId || 0])}
+            handleClick={() => setDialogOpen(true)}
           />
         </Grid>
         <Grid size={9.5} mx={5}>
@@ -62,7 +58,7 @@ export function ListaContatos() {
           </Box>
         </Grid>
         <Grid size={9.5} mx={6}>
-          <FormContacts />
+          <FormContacts active={dialogOpen} />
          <ListContacts 
             setPersonas={setPersonas}
             personas={personas}

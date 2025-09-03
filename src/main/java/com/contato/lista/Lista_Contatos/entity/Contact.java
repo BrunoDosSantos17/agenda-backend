@@ -21,10 +21,6 @@ public class Contact {
 
     private String name;
 
-    private String middleName;
-
-    private String lastName;
-
     private String phone;
 
     private String email;

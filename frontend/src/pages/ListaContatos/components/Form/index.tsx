@@ -6,52 +6,31 @@ import {
   DialogTitle,
   Grid2 as Grid,
 } from "@mui/material";
-import { useRef, useState } from "react";
-import { createPessoa } from "../../../../services";
+import { useFormContactsService } from "./hook/formContacts";
 import { WhiteTextField } from "./componentes/TextField";
 
-export function FormContacts() {
-  const initialFormData = {
-    id: null,
-    name: "",
-    middleName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    avatar: null,
-  };
+type FormContactsProps = {
+  active: boolean;
+  setActive: (value: boolean) => void;
+};
 
-  const [formData, setFormData] = useState(initialFormData);
-  const [avatar, setAvatarFile] = useState<File | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setAvatarFile(e.target.files[0]);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    await createPessoa(formData, avatar);
-
-    setFormData(initialFormData);
-    setAvatarFile(null);
-  };
+export function FormContacts({ active, setActive }: FormContactsProps) {
+  const {
+    handleChange,
+    handleSubmit,
+    formData,
+    fileInputRef,
+    handleFileChange,
+    handleUploadClick,
+    avatar,
+  } = useFormContactsService();
 
   return (
-    <Dialog open={true} maxWidth={"sm"} style={{ backdropFilter: "blur(4px)" }}>
+    <Dialog
+      open={active}
+      maxWidth={"sm"}
+      style={{ backdropFilter: "blur(4px)" }}
+    >
       <Container style={{ backgroundColor: "#1e1e2f" }}>
         <DialogTitle align="left" style={{ color: "#dcdce6ff" }}>
           Adicionar Novo Contato
@@ -107,17 +86,7 @@ export function FormContacts() {
               </Button>
             </Grid>
 
-            <Grid size={5} mx={3}>
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                color="primary"
-              >
-                Cancelar
-              </Button>
-            </Grid>
-            <Grid size={5} mx={1}>
+            <Grid size={5.25} mx={3}>
               <Button
                 type="submit"
                 variant="contained"
@@ -125,6 +94,16 @@ export function FormContacts() {
                 color="primary"
               >
                 Salvar
+              </Button>
+            </Grid>
+            <Grid size={5.25}>
+              <Button 
+              variant="contained" 
+              fullWidth 
+              color="error"
+              onClick={() => setActive(false)}
+              >
+                Cancelar
               </Button>
             </Grid>
           </Grid>

@@ -27,8 +27,6 @@ public class ContactService {
                     .name(contactDto.getName())
                     .phone(contactDto.getPhone())
                     .email(contactDto.getEmail())
-                    .middleName(contactDto.getMiddleName())
-                    .lastName(contactDto.getLastName())
                     .avatar(armazenamentoImagem(avatar))
                     .build());
         }catch (Exception e) {
@@ -44,8 +42,6 @@ public class ContactService {
                 .name(contactDto.getName())
                 .phone(contactDto.getPhone())
                 .email(contactDto.getEmail())
-                .middleName(contactDto.getMiddleName())
-                .lastName(contactDto.getLastName())
                 .avatar("")
                 .build())).orElse(null);
     }

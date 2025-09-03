@@ -36,8 +36,6 @@ public class ContactController {
 
         return ResponseEntity.ok(ContactDto.builder()
                 .name(contact.getName())
-                .middleName(contact.getMiddleName())
-                .lastName(contact.getLastName())
                 .email(contact.getEmail())
                 .phone(contact.getPhone())
                 .build());

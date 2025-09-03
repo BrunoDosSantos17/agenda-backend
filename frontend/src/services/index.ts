@@ -8,7 +8,7 @@ export const listPessoas = async () => {
       return response.data;
   };
 
-export const createPessoa = async (pessoa: Contact, avatar?: File) => {
+export const createPessoa = async (pessoa: Contact, avatar: File) => {
   const formData = new FormData();
 
   // Envia o DTO como um JSON no campo "contact"
